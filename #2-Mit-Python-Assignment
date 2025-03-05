@@ -1,1 +1,31 @@
+# Begin by gretting the user and explaining the game rules.
+# Use the input function to allow the user to make choices at each step of the game.
+# Implement branching using conditional statements to determine the outcome of each choice.
+# Include at least three different paths or endings based on the user's decisions.
+# Use string concatenation and f-strings to create dynamic and engaging text outputs.
+# Use comments to explain the logic and structure of the code.
+# Emphasize code readability and organization, following best practices discussed in the lecture.
 
+print ("Hello User! ")
+print ("We are going to play a game called guess me if you can! ") #HERE I JUST TELL THEM THAT THEY ENTERED MY GAME
+n1 =1
+n2 =2
+n3 =3
+n4 =4
+n5 =5
+n6 =6
+n7 =7
+n8 =8
+n9 =9
+secretnumber = 8 #THIS IS THE SECRET NUMBER
+guess = int(input("Try and guess what my secret number is, ill give you a hint, its from 1-10... ")) #THIS I ASK THEM TO GUESS WHAT MY SECRET NUMBER IS
+if guess == 1:
+    print ("Nobody ever likes the number one, who chooses that number")
+elif guess == 2:
+    print (f'This number is way too low... major hint here, you are more than {guess*(5/2)}, digits off') #f-string here
+elif guess > 8:
+    print ("Now thats not right, too high of a number", n1+n7, "right?") #if they guess too high of a number I tell them
+elif guess < 8: 
+    print ("Now thats too little, cant you get anything right...") #if they guessed too low of a number I tell them
+else:
+    print ("You got it right! Nice job!") #if they got the number which is my secret number, I tell them they are right
