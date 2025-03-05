@@ -1,1 +1,47 @@
+# Create a python program that generates and analyzes a simple number sequence.
+# Prompt the user to enter a positive integer "N".
+# Use a while loop to generate a sequence of number from 1 to N.
+# Within the loop, use an if-else statement to determine if each number is even or odd.
+# Keep a count of even and odd numbers encountered.
+# Use a for loop to iterate through the generated sequence and find the sum of all numbers.
+# Calculate and display the average of the sequence.
+# Use a nested loop to find and display all pairs of numbers in the sequence that add up to "N".
+# Implement error handling to ensure the user enteres a valid positive integer.
+# Use appropriate comments to explain the code.
+# Print a summary of the results, including the counts of even and odd numbers, the sum, average, and the pairs that add up to "N".
 
+N = int(input("Please enter a positive integer: ")) #here i ask for the input of any number that they choose to give me
+i = 1
+x = 1
+y = ""
+sum = 0
+r = 0
+q = 0
+#here if the number is less than or equal to 0, it prints please enter a positive integer
+if N <= 0: 
+    print ("Please enter in a positive integer and re-run the code ")
+if N > 0: #here if N is greater than 0, meaning it is a positive integer, it starts to run this code
+    print("Here are the end results: ")
+    while i < N+1:
+        if i%2 == 0: #here this checks if and which numbers are even
+            y = "even"
+            r += 1
+            if N==N:
+                print ( i, "is an",y, "number")
+                i = i +1
+        elif i%2 != 0: #here it assumes if the number is not even, they are odd
+            y = "odd"
+            q += 1
+            if N==N:
+                print ( i, "is an",y, "number")
+                i = i +1
+    print ("You have", r+q,"even and odd numbers combine") #here it prints the number of odd and even number combine
+    print (f"You have, {r}, even number(s), and {q}, odd number(s) ") #here it shows that there are a certain number of odd and even numbers
+    for c in range (1,N+1):
+        sum += c #this makes it so we see the total amount of all numbers added from 1-N
+        for s in range (1,N+1): #here is the nested loop that shows all the numbers that are equal to N 
+            if c + s == N: #here it says if c in the loop plus s in the loop in any sequence from 1-N equals N; It prints what is below
+                print ("These are the numbers that add up to equal N:", c,"and",s)
+    print ("Here is the sum of the numbers in total:", sum) #here it prints the sum, and it prints the average of the numbers
+    r = sum/c
+    print ("Here is the average of the numbers:", r) #average of the numbers
