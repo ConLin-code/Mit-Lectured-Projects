@@ -1,5 +1,5 @@
 # Mit-Lectured-Projects
-Over the course of this year, I have watched the YouTube course supported from MIT OpenCourseWare on python programming (MIT 6.100L Introduction to CS and Programming using Python, Fall 2022) and completed certain "assignments". My code was done a while back, I just thought i'd post it on github for anyone trying to do the same as I did ̶̶  learn python.
+Over the course of this year, I have watched the YouTube course supported from MIT OpenCourseWare on python programming (MIT 6.100L Introduction to CS and Programming using Python, Fall 2022) and completed certain "assignments". My code was done a while back, I just thought i'd post it on github for anyone trying to do the same as I did ̶̶-- learn python.
 
 # Here is the link to the Mit Open Coursware Website: 
 https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
