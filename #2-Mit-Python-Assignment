@@ -1,3 +1,4 @@
+# Create a python programs that simulates a simple text-based game where the user navigates through a serious of choices.
 # Begin by gretting the user and explaining the game rules.
 # Use the input function to allow the user to make choices at each step of the game.
 # Implement branching using conditional statements to determine the outcome of each choice.
