@@ -11,7 +11,7 @@ I would watch the lecture that MIT provided online for free while taking notes--
 If you don't understand something in the lecture, Chatgpt or some sort of LLM is your best friend. Think of it as your teacher when your in school. Now, if you don't know how to do an assignment, I tried to avoid using the LLM to help me with coding, since I wouldn't be learning as much as grinding through it. But, if you are stuck on something for quite some time and have looked back in the lectures for help, which was not suffice, then I would recommend you to ask it questions that aid in helping your code, but not doing your code for you.
 
 # How is each file structured?
-Each File contains the assignment in which Chatgpt gave me to complete, and the python code that I wrote.
+Each file contains the assignment (which is commented on the top of each file) in which Chatgpt gave me to complete, and the python code that I wrote to do what was assigned.
 
 # Links to the Mit lectures (on youtube) in order that match each file assignment:
 1. https://youtu.be/xAcTmDO6NTI?si=9YZqJkuGMhQoMqNr
