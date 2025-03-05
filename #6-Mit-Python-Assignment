@@ -12,7 +12,7 @@
 
 number = float(input("Please enter a postive number to find the cube root of: "))
 epsilon = float(input("Please enter an epsilon value for precision: "))
-x = number (1/3) #here is the built in python function
+x = number **(1/3) #here is the built in python function
 if number > 0:
     def cube_root_bisection (number, epsilon): #here it makes sure the function is defined with these variables in them
         num = 0
