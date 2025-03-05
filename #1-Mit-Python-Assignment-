@@ -8,7 +8,7 @@
 # Ensure that the programs handles both integer and floating-point arithmetic accurately. 
 # Implement input validation to ensure the user enters valid number and operation choices.
 # Emphasize code readability and organization, following best practices discussed in the lecture.
-#
+
 
 while True:
     x1 = float(input("Please enter your first number: "))
