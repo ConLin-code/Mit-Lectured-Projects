@@ -1,1 +1,62 @@
+# Create a python program that implements both a guess-and-check algorithm and binary conversion.
+# Prompt the user to enter a positive integer between 1 and 100.
+# Display each step of teh guess-and-check process, showing the current guess and whether it's too high or too low.
+# After finding the square root, convert the original number to its binary representation using a loop.
+# Display the binary representation of the number.
+# Implemenet error handling to ensure the user enteres a valid positive integer within the specified range.
+# Use appropriate comments to explain your code, especially the guess-and-check and binary conversion algorithms.
+# Include a loop that allows the user to repeat the process with different numbers until they choose to exit.
+# Use string formatting to present the output in a clear and readable manner.
+# At the end of each calculation, briefly explain how binary numbers relate to computer memory storage.
+
+x = ""
+true = True
+while true:
+    i = 1
+    y = 0
+    x = input("Would you still like to run the code?(yes/no): ").strip().lower() #This is where it asks if you would like to run the code
+    if x == "no":
+        print ("Have an amazing day")
+        break
+    elif x == "yes": 
+        pass
+    elif x != "no" and x != "yes":
+        while x != "yes" and x != "no":
+            print ("Please answer the question again, remember only to enter yes/no: ") #here if you did not enter either yes or no, it keeps you in there until you do
+            x = input("Would you still like to run the code?(yes/no): ").strip().lower()
+    userinput = int(input("Please enter a positive intger between 1 and 100: "))
+    while i <= 10:
+        i = i
+        squared = i * i 
+        if i == (i+(userinput/i))/2:
+            print ("We have stayed at this same value now, so we are going to stop here. The value is", i, ",in integer form: ", int(i))
+            i = int(i)
+            def decode_number_to_binary(i):
+                binary = [] #HERE I CREATED AN OPEN LIST
+                while i > 0:
+                    binary.append(i % 2) #HERE i append n%2 which is always going to be either 1 or 0, if it is an odd number, it will be 1, if it is an even number, it will be 0
+                    i //= 2
+                return ''.join(str(num) for num in reversed(binary)) #HERE IT JOINS ALL THE NUMBERS AND CONVERTS THE NUMBERS TO STRINGS IN REVERSED ORDER SO IT IS BINARY
+            print (f"Here is the value in binary code", {decode_number_to_binary(i)}) 
+            print ("Binary numbers are what computers store there language as and they mean different things in different contexts")
+            break
+        isitsquared = userinput/i #HERE IS THE ALGORITHM THAT WORKS TO FIND OUT WHAT THE SQUARE ROOT OF THE NUMBER REALLY IS
+        i = (i+(userinput/i))/2
+        if i == userinput/i:
+            print ("This is the final guess that is correct is", i, "when rounded to an integer: ", int(i))
+            i = int(i)
+            def decode_number_to_binary(i):
+                binary = [] #HERE I CREATED AN OPEN LIST
+                while i > 0:
+                    binary.append(i % 2) #HERE i append n%2 which is always going to be either 1 or 0, if it is an odd number, it will be 1, if it is an even number, it will be 0
+                    i //= 2
+                return ''.join(str(num) for num in reversed(binary)) #HERE IT JOINS ALL THE NUMBERS AND CONVERTS THE NUMBERS TO STRINGS IN REVERSED ORDER SO IT IS BINARY
+            print (f"Here is the value in binary code", {decode_number_to_binary(i)}) 
+            print ("Binary numbers are what computers store there language as and they mean different things in different contexts")
+            break #here it breaks since the user enter the value that I already wanted
+        elif i != userinput/i:
+            if i < userinput/i:
+                print(f"This is the current guess", {i}, "and it is too low")
+            elif i > userinput/i: 
+                print (f"This is the current guess", {i}, "and it is too high") #here it prints that if i is greater than the actual answer that it is too high, same thing above, but low
 
