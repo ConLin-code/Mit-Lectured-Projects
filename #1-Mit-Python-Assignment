@@ -1,3 +1,4 @@
+# Develop a python program that functions as a simple calculator.  
 # Prompt the user to enter two numbers and an arithmetic operation (addition, subraction, multiplication, or division).
 # Use function to perform each arithmetic operation seperately.
 # Implement error handling to manage division by zero and invalid input types.
