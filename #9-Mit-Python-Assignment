@@ -1,1 +1,40 @@
+# Create a python program that demonstrates the use of lambda functions, tuples and lists.
+# Define a list of tuples, where each tuple contains a person's name and age.
+# Use a lambda function with the sorted() function to sort the list of tuples based on age.
+# Implement a function that uses filter() and a lambda function to return a new list of tuples containing only people over a certain age.
+# Create a list comprehension that extracts all the names from the list of tuples.
+# Use map() with a lambda function to create a new list where each person's age is increased by 1.
+# Demonstrate tuple unpacking by printing each persons's name and age in a formatted string.
+# Create a function that takes a list of number and returns a new list containing the square of even numbers and the cube of odd numbers using a list comprehension.
+# Use appropriate comments to explain the code, especially focusing on the use of lambda function and list comprehensions.
 
+
+emptytuple = [("Anna", 47), ("Constantine", 16), ("Emanuel", 10), ("Dino", 60)]
+sortedtuple = sorted(emptytuple, key = lambda x: x[1]) #here I arranged the tuple in order from the youngest age to the highest
+print (sortedtuple)
+
+aboveagetuple = [("Dylan", 16), ("David", 18), ("John", 20), ("Adam", 22), ("Steve", 53), ("Ryder", 12)] 
+aboveage = filter(lambda x : x[1] >= 18, aboveagetuple) #here we filtered out all of the tuples that were not greater than or equal to 18
+aboveage2 = list(map(lambda x: x[0],aboveage)) #here we made a new list of only the names of the people that are older than 18
+print (aboveage2)
+
+agetuple = list(map(lambda x: x[0],aboveagetuple)) #here we printed out everyones name
+print (agetuple)
+
+print (aboveagetuple)
+newage = list(map(lambda x: (x[0], x[1] + 1), aboveagetuple)) #here we added 1 year to each persons age
+print (newage)
+
+for x in range(len(aboveagetuple)):
+    unpacking = aboveagetuple[0 + x] #in this code, we arrange the code to unpack each persons name and age and format it into a new string
+    name,age = unpacking #tuple unpacked into name and age variables
+    output = f"Name: {name}\nAge: {age}"
+    print (output)
+listofnum = [12,13,3,5,6,8,2,19] 
+def oddeven (x):
+    if x%2 == 0:
+        return (xx)
+    else: 
+        return (xx*x)
+evenodd = list(map(oddeven, listofnum)) #here we have the function of if the number is even, we square it and if the number is odd, we cube it
+print(evenodd)
