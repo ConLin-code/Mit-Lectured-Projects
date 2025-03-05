@@ -1,10 +1,31 @@
+# Prompt the user to enter two numbers and an arithmetic operation (addition, subraction, multiplication, or division).
+# Use function to perform each arithmetic operation seperately.
+# Implement error handling to manage division by zero and invalid input types.
+# Display the result of the chosen operation in a clear and formatted manner.
+# Include a loop that allows the user to perform multiple calculations until they choose to exit.
+# Use conditional statements to determine and execute the correct operation based on user input.
+# Incorporate comments throughout the code to explain the logic and functionality of each section.
+# Ensure that the programs handles both integer and floating-point arithmetic accurately. 
+# Implement input validation to ensure the user enters valid number and operation choices.
+# Emphasize code readability and organization, following best practices discussed in the lecture.
 #
-#
-#
-#
-#
-#
-#
-#
-#
-#
+
+while True:
+    x1 = float(input("Please enter your first number: "))
+    x2 = float(input("Please enter your second number: "))
+    x3 = input("Please enter an arithmetic operation(addition,subtraction,multiplication or division): ")
+    if x3 != "addition" and "division" and "multiplication" and "subtraction": #if the input for the arithmetic operation is not any of the ones listed, it will break the loop and ask to please try again
+        print ("Please try again with the proper arithmetic")
+        break
+    elif x3 == "addition":
+        result = x1 + x2 
+    elif x3 == "division":
+        result= x1/x2
+    elif x3== "multiplication":
+        result = x1 * x2
+    elif x3 == "subtraction":
+        result= x1 - x2
+    print (result)
+    y = input("Would you like to continue again, type(yes to continue, or no to end): ") #the code continues if they print yes
+    if y == "no": #if they do not want to continue, the code breaks
+        break
