@@ -1,1 +1,36 @@
+# Create a python program that implements the bisection search algorithm to find the cube root of a positive number.
+# Prompt the user to enter a positive number.
+# Implement a functino called cube_root_bisection that takes two parameters: the number to find the cube root of an an epsilon value for precision.
+# Use bisection search to find the cube root of the given number within the specified epsilon.
+# Display each step of the bisection search process, showing the current guess and whether it's too high or too low.
+# Keep track of and display the number of guesses required to find the solution.
+# Compare the result with Python's built in **(1/3) operator and calculate the difference.
+# Implement error handling to ensure the user enteres a valid positive number.
+# Allow the user to adjust the epsilon value to see how it affects the precision and number of guesses. 
+# Use appropriate comments to explain your code, especially the bisection search algorithm.
+# Include a brif explanation of why bisectino search is more efficient than a simple guessing approach for this problem.
 
+number = float(input("Please enter a postive number to find the cube root of: "))
+epsilon = float(input("Please enter an epsilon value for precision: "))
+x = number (1/3) #here is the built in python function
+if number > 0:
+    def cube_root_bisection (number, epsilon): #here it makes sure the function is defined with these variables in them
+        num = 0
+        low = 1
+        high = number
+        guess = (low + high)/2
+        while abs(guess3- number) > epsilon: #this right here is the epsilon calculator with the guess
+            num += 1
+            if guess**3 > number:
+                high = guess
+                print (f"This guess was too high {guess}")
+            else:
+                low = guess
+                print (f"This guess was too low {guess}")
+            guess = (high+low)/2
+        print ("This is the final guess", guess)
+        print ("This is the total number of guess trys it took:", num+1)
+        print (f"This is the difference between the cube root calculator and pythons built in funtion {abs(guess-x)}") #here I get the difference between the built in function and the bisection check
+    cube_root_bisection(number, epsilon) #here it pull back and just make sure the function recalls these variables so the whole statement will actually print
+    #bisection search is way better to use in this function since we know the range of numbers and know if the "guessing" number is greater or less than the value, so it just makes the process quicker
+else: print ("Please enter in a positive number greater than 1")
