@@ -1,1 +1,62 @@
+# Create a python program that demonstrates the challenges and limitations of floating-point arithmetic.
+# Implemenet a function that calculates the sum of 1/n for n ranging from 1 to a user-specified limit using floating-point arithmetic.
+# Compare the result of this calculation to the theoretical value of the harmonic series up to that limit.
+# Implement another function that performs the same calculation but uses a different order of summation (e.g., from the largest term to the smallest).
+# Display the results of both calculations and their difference from the theoretical value.
+# Implement a simple Newton's method to approximate square roots, demonstrating how floating-point precision affects the convergence.
+# Use appropriate comments to explain your code and the concepts behind each calculation.
+# Include error handling to manage invalid user inputs.
+# Provide a brief explanation of why the results might differ from expected values and how floating0point representation contributes to these differeneces.
+# Suggest and implement at least one method to improve the accuracy of one of the calculations.
+
+total = 0
+n = 1
+increment = 0.1
+x = float(input("Please enter a postive number: ")) #IN THIS CODE WE ADD ALL THE VALUES UP FROM DESCENDED TO ASCENDED ORDER
+if x >= 1:
+    while n <= x:
+        c = 1/n
+        total += c
+        print (f"This is the value 1/n in the range x, {c} ")
+        n += increment
+    print (f"This is the value of all of 1/n combine, {total}")
+    p = 1
+    while p <= ((total**2)/total):
+        if p == (p+(total/p))/2:
+            print ("from descended to ascending order",p, "is the square root of", total)
+            break
+        p = (p+(total/p))/2
+        if p == total/p:
+            print("from descended to ascending order",p, "is the square root of", total)
+            break
+
+else:
+    print ("Something went wrong in your code")
+#The reason these two values are probably going to be different are because of floating point error, which is when the computer does not get to fully read all of the integers due to 
+#storage, so it just either stops the code or rounds the float value
+n = 1
+increment2 = 0.1
+total2 = 0  #IN THIS CODE WE ADD ALL THE VALUES DOWN FROM ASCENDED TO DESCENDED ORDER
+if x >= 1:
+    while x >= n:
+        d = 1/x
+        total2 += d
+        print (f"This is the value 1/n in the range x, {d} ") 
+        x -= increment2
+    print (f"This is the value of all of 1/n combine, {total2}")
+    f = total2 - total
+    print ("This is the difference between the two values:", f) #here it takes the difference between the two values
+    print ("Here is the mean between the two values, giving us the most precise answer:",(total2+total)/2 ) #here it finds the mean to approximate the value of both of them
+    i = 1
+    while i <= ((total2**2)/total2):
+        if i == (i+(total2/i))/2:
+            print ("from ascended to descending order",i, "is the square root of", total2)
+            break
+        i = (i+(total2/i))/2
+        if i == total2/i:
+            print("from ascended to descending order",i, "is the square root of", total2)
+            break
+else: 
+    pass #I already said above and printed something went wrong in the code, so I don't want to display that twice, which is why it just passes 
+print (f"This is the division of the square root of both numbers: {p/i}, which means in this scenario, the float error didnt matter because we added error handling")
 
