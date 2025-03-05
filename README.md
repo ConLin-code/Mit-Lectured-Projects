@@ -7,7 +7,7 @@ https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-pyth
 # What I did do to learn python?
 I would watch the lecture that MIT provided online for free while taking notes-- mine specifically being handwritten. I then asked Chatgpt to give me some questions on that given lecture that someone would have had to watch to know, but not need any other knowledge outside of this lecture to understand. On average it provided me with 7 questions that I would answer based on the lecture afterwards, testing my knowledge even more. Is that it? No way. What I then did was ask Chatgpt to give me an problem/assignment that I would have to code by myself.
 
-# What do you do if you don't know something
+# What do you do if you don't know something?
 If you don't understand something in the lecture, Chatgpt or some sort of LLM is your best friend. Think of it as your teacher when your in school. Now, if you don't know how to do an assignment, I tried to avoid using the LLM to help me with coding, since I wouldn't be learning as much as grinding through it. But, if you are stuck on something for quite some time and have looked back in the lectures for help, which was not suffice, then I would recommend you to ask it questions that aid in helping your code, but not doing your code for you.
 
 # How is each file structured?
