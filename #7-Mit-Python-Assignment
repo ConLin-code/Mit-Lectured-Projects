@@ -1,1 +1,47 @@
+# Create a python program that demonstrates the concepts of decomposition, abstraction, and functions learned in the lecture.
+# Implement a function called "calcuulate_quadratic" that takes four parameters (a,b,c and x) and returns the value of ax^2 + bx + c.
+# Create another function called "find_roots" that uses the quadratic formula to find the roots of a quadratic equation. This function should take three parameters (a,b, and c) and return a tuple containing the two roots.
+# Implement a function called "is_real_root" that takes a single parameter and returns True if it's a real number, False otherwise.
+# Write a main functino that: 1. Promps the User to enter coeffiients a,b, and c for a quadratic equation. 2. Calls "find_roots" to calculate the roots. 3. Uses "is_real_roots" to determine if each root is real. 4. Prints the roots and whether they are real or complex. 5. Uses "calculate_quadratic" to evaluate the quadratic at x=0,x=1, and x=-1
+# Use appropriate comments to explain the code, especially focusing on how each function abstracts away implementatino details.
+# Include error handling to manage invalid user inputs.
+# Demonstrate how these functions can be resused in different contexts within the program.
+
+
+#These are the main functions
+a = int(input("Please enter a value for (a) given the equation ax^2 + bx + c: "))
+b = int(input("Please enter a value for (b) given the equation ax^2 + bx + c: ")) #asks for input
+c = int(input("Please enter a value for (c) given the equation ax^2 + bx + c: "))
+x = -1
+while x <= 1:
+    x += 1
+    def calculate_quadratic (a,b,c,x):
+        quadratic = a(x**2) + bx + c #uses quadratic
+        return quadratic
+    print ("This is the value of the quadratic when x =",x,",",calculate_quadratic (a,b,c,x))
+
+x1 = ""
+x2 = ""
+tupile = ""
+def find_roots (a,b,c):
+    x1 = ((-b + (((b2) - (4ac))(1/2)))/(2a)) #uses the quadratic formula
+    x2 = ((-b - (((b**2) - (4ac))**(1/2)))/(2a))
+    tupile = (x1, x2)
+    return (tupile) #here it puts the values into a tuple
+print (find_roots(a,b,c))
+
+
+
+def is_real_root (x1,x2):
+    x1 = ((-b + (((b2) - (4ac))(1/2)))/(2a))
+    x2 = ((-b - (((b**2) - (4ac))**(1/2)))/(2a))
+    try:
+        if x1 and x2 == float(x1) and float(x2): #her it compares the two values to see if they are whole numbers
+            return True
+    except TypeError:
+        return False
+    except ValueError:
+        return False
+print (is_real_root(x1,x2)) #here if it has a value error or a type error, it automatically produces false because we know the answer arent the same
+
 
