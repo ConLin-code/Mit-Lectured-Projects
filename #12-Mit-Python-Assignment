@@ -1,1 +1,174 @@
+# Create a python program that demonstrates understanding of list comprehensions, functions as objects, and testing concepts.
+# Implement a function called "process_numbers" that takes a list of integers and returns a new list containing only the even numbers squared, using a list comprehension.
+# Create a higher-order function "apply_operation" that takes a function and a list as arguments, and applies the function to each element of the list.
+# Demonstrate the use of keyword arguments by creating a function "format_string" that takes multiple parameters with default values.
+# Implement a simple unit test for the "process_numbers" function using assertions.
+# Create a function that intentionally raises an exception, and demonstrate how to handle it using a try/except block.
+# Use list comprehensions to create a list of tuples, where each tuple contains a number and its square root (if it's a perfect square)
+# Implement a decorator function that measures and prints the execution time of any function it decorates.
+# Write appropriate docstrings for each function, including examples of usage
+# Create a main function that demonstrates the use of all imlemented functions and features
+# Include comments explaining your code, especially focusing on list comprehensions, function objects and testing concepts.
 
+# Function to process a list of numbers, returning only the even numbers squared using list comprehension
+def process_numbers(numbers):
+    """
+    Given a list of integers, returns a new list containing only the even numbers squared.
+
+    Example:
+    process_numbers([1, 2, 3, 4]) -> [4, 16]
+
+    Parameters:
+    - numbers: List of integers
+
+    Returns:
+    - List of integers (even numbers squared)
+    """
+    return [x**2 for x in numbers if x % 2 == 0]
+
+# Higher-order function that takes a function and a list, applies the function to each element of the list
+def apply_operation(func, lst):
+    """
+    Applies the provided function to each element in the list.
+
+    Example:
+    apply_operation(lambda x: x + 1, [1, 2, 3]) -> [2, 3, 4]
+
+    Parameters:
+    - func: Function to apply to each element in the list
+    - lst: List of elements
+
+    Returns:
+    - List of results after applying the function to each element
+    """
+    return [func(x) for x in lst]
+
+# Function to format a string with multiple parameters, demonstrating keyword arguments and default values
+def format_string(name="World", greeting="Hello", punctuation="!"):
+    """
+    Formats a greeting string using the provided parameters with default values.
+
+    Example:
+    format_string() -> "Hello, World!"
+    format_string(name="Alice", greeting="Hi") -> "Hi, Alice!"
+
+    Parameters:
+    - name: Name to greet (default is "World")
+    - greeting: Greeting word (default is "Hello")
+    - punctuation: Ending punctuation (default is "!")
+    
+    Returns:
+    - Formatted greeting string
+    """
+    return f"{greeting}, {name}{punctuation}"
+
+# Unit test for the process_numbers function using assertions
+def test_process_numbers():
+    """
+    Simple unit test for the process_numbers function using assertions.
+
+    This function runs tests and prints a success message if the tests pass.
+    """
+    assert process_numbers([1, 2, 3, 4]) == [4, 16], "Test Case 1 Failed"
+    assert process_numbers([1, 5, 7]) == [], "Test Case 2 Failed"
+    assert process_numbers([0, 2, 4]) == [0, 4, 16], "Test Case 3 Failed"
+    print("All tests passed!")
+
+# Function that raises an exception, demonstrating exception handling using try/except
+def raise_exception(value):
+    """
+    Raises a ValueError if the input is negative.
+
+    Example:
+    raise_exception(-1) raises an exception
+
+    Parameters:
+    - value: Integer to check
+
+    Returns:
+    - None, but raises ValueError if value is negative
+    """
+    if value < 0:
+        raise ValueError("Value cannot be negative")
+    return value
+
+# Function that uses list comprehensions to create a list of tuples containing a number and its square root (if it's a perfect square)
+def perfect_square_tuples(numbers):
+    """
+    Given a list of numbers, returns a list of tuples where each tuple contains a number and its square root if it's a perfect square.
+
+    Example:
+    perfect_square_tuples([4, 7, 9, 12]) -> [(4, 2.0), (9, 3.0)]
+
+    Parameters:
+    - numbers: List of integers
+
+    Returns:
+    - List of tuples where each tuple contains a number and its square root (if it's a perfect square)
+    """
+    return [(x, x**0.5) for x in numbers if int(x**0.5)**2 == x]
+
+# Decorator function that measures and prints the execution time of any function it decorates
+def measure_time(func):
+    """
+    A decorator that measures the execution time of a function.
+
+    Example:
+    @measure_time
+    def slow_function(): pass
+
+    Parameters:
+    - func: Function to decorate
+
+    Returns:
+    - Wrapped function that prints execution time
+    """
+    def wrapper(*args, **kwargs):
+        start_time = time.time()  # Start time
+        result = func(*args, **kwargs)
+        end_time = time.time()  # End time
+        print(f"Execution time of {func.__name__}: {end_time - start_time} seconds")
+        return result
+    return wrapper
+
+# Example of a slow function to demonstrate the decorator
+@measure_time
+def slow_function():
+    """
+    A function that simulates a delay.
+    """
+    time.sleep(2)  # Sleep for 2 seconds to simulate a slow function
+
+# Main function that demonstrates the use of all implemented functions and features
+def main():
+    # Demonstrate process_numbers with list comprehension
+    numbers = [1, 2, 3, 4, 5, 6]
+    print("Even numbers squared:", process_numbers(numbers))
+
+    # Demonstrate apply_operation with a lambda function
+    incremented = apply_operation(lambda x: x + 1, numbers)
+    print("Incremented numbers:", incremented)
+
+    # Demonstrate format_string with keyword arguments
+    print(format_string())  # Default greeting
+    print(format_string(name="Alice", greeting="Hi"))  # Custom greeting
+
+    # Test process_numbers using assertions
+    test_process_numbers()
+
+    # Demonstrate exception handling with raise_exception
+    try:
+        print(raise_exception(-1))  # This should raise an exception
+    except ValueError as e:
+        print(f"Caught exception: {e}")
+
+    # Demonstrate perfect_square_tuples using list comprehension
+    numbers_with_squares = perfect_square_tuples([4, 7, 9, 12])
+    print("Perfect square tuples:", numbers_with_squares)
+
+    # Demonstrate the decorator with a slow function
+    slow_function()
+
+# Run the main function
+if __name__ == "__main__":
+    main()
