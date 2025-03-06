@@ -1,1 +1,114 @@
+# Create a python program that demonstrates understanding of aliasing and cloning concepts. 
+# Implement a function called "modify_list" that takes a list as an argument and modifies it in place by squaring each element.
+# Create another function "clone_and_modify" that takes a list, creates a clone of it, modifies the clone by cubing each element, and returns the modified code.
+# Demonstrate aliasing by creating two variables that refer to the same list, then modify one and show how it affects the other
+# Create a nested list and demonstrate the difference between shallow and deep copying.
+# Implement a function that uses a list comprehension to create a new list based on an existing one, without modifying the original
+# Create a function that takes a list of lists and creates a deep copying of it
+# Demonstrate how aliasing can lead to unexpected results in a function that modifies its input
+# Use appropriate comments to explain your code, especially focusing on aliasing and cloning concepts
+# Implement error handling to manage invalid user inputs.
+# Create a main function that: 1. prompts the user to enter a list of numbers, 2. demonstrates each of the above functions with appropriate output, 3. shows the state of the original and modified lists after each operation to illustrate aliasing and cloning concepts
 
+# Function to modify the list by squaring each element in place
+def modify_list(lst):
+    for i in range(len(lst)):
+        lst[i] **= 2
+
+# Function to clone a list and modify the clone by cubing each element
+def clone_and_modify(lst):
+    cloned_lst = lst[:]  # Create a shallow clone of the list using slicing
+    for i in range(len(cloned_lst)):
+        cloned_lst[i] **= 3
+    return cloned_lst
+
+# Demonstrating aliasing by creating two variables that refer to the same list
+def demonstrate_aliasing():
+    lst1 = [1, 2, 3]
+    lst2 = lst1  # Both lst1 and lst2 refer to the same list
+    lst1.append(4)  # Modify lst1 by adding an element
+    print("List 1 (modified):", lst1)
+    print("List 2 (alias of List 1):", lst2)  # Since lst2 refers to the same list, it is modified too
+
+# Demonstrating shallow and deep copying of a nested list
+def demonstrate_copying():
+    nested_lst = [[1, 2], [3, 4]]
+    
+    # Shallow copy: Copies the top-level structure, but not the nested lists
+    shallow_copy = nested_lst[:]  # Using slicing for a shallow copy
+    
+    # Deep copy: Manually copying the entire list, including all nested lists
+    deep_copy = []
+    for sublist in nested_lst:
+        deep_copy.append(sublist[:])  # Create a new copy of each sublist
+    
+    # Modify the original list and observe the effect on the copied lists
+    nested_lst[0][0] = 99
+    print("\nOriginal List:", nested_lst)
+    print("Shallow Copy (affected):", shallow_copy)
+    print("Deep Copy (unaffected):", deep_copy)
+
+# Function that uses list comprehension to create a new list based on an existing one
+def list_comprehension_example(lst):
+    new_lst = [x * 2 for x in lst]  # New list with elements doubled
+    return new_lst
+
+# Function to create a deep copy of a list of lists
+def deep_copy_list_of_lists(lst):
+    # Manually deep copying a list of lists without using imports
+    deep_copy = []
+    for sublist in lst:
+        deep_copy.append(sublist[:])  # Create a new copy of each nested list
+    return deep_copy
+
+# Demonstrating how aliasing can lead to unexpected results in a function that modifies input
+def modify_in_function(lst):
+    lst.append(10)  # Modify the list inside the function
+    print("Modified list inside the function:", lst)
+
+# Main function to demonstrate all concepts
+def main():
+    # Step 1: Prompt the user to enter a list of numbers
+    try:
+        user_input = input("Enter a list of numbers, separated by spaces: ")
+        user_list = list(map(int, user_input.split()))  # Convert input string to a list of integers
+    except ValueError:
+        print("Error: Please enter only numbers.")
+        return
+    
+    # Show the original list
+    print("\nOriginal List:", user_list)
+    
+    # Step 2: Demonstrating the modify_list function (squaring each element in place)
+    modify_list(user_list)
+    print("After modifying the list (squaring elements in place):", user_list)
+
+    # Step 3: Demonstrating the clone_and_modify function (cubing each element)
+    original_list = [1, 2, 3]
+    cloned_and_modified = clone_and_modify(original_list)
+    print("\nOriginal List (before cloning and modifying):", original_list)
+    print("Cloned and modified list (cubed elements):", cloned_and_modified)
+    
+    # Step 4: Demonstrating aliasing
+    demonstrate_aliasing()
+    
+    # Step 5: Demonstrating shallow and deep copying
+    demonstrate_copying()
+
+    # Step 6: Using list comprehension to create a new list based on the original
+    new_list = list_comprehension_example(user_list)
+    print("\nNew list created with list comprehension (doubled elements):", new_list)
+    
+    # Step 7: Demonstrating deep copying of a list of lists
+    nested_list = [[1, 2], [3, 4]]
+    copied_nested_list = deep_copy_list_of_lists(nested_list)
+    print("\nOriginal nested list:", nested_list)
+    print("Deep copy of the nested list:", copied_nested_list)
+
+    # Step 8: Demonstrating aliasing causing unexpected results in a function
+    modify_in_function(user_list)
+    print("\nList after modification in the function (unexpected changes due to aliasing):", user_list)
+
+# Run the main function
+if __name__ == "__main__":
+    main()
