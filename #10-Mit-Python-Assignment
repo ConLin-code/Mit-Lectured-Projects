@@ -1,1 +1,113 @@
+# Create a python program that demonstrates understanding of list mutability and related concepts.
+# Implement a function called "modify_list" that takes a list as an argument and modifies it in place by doubling each element.
+# Create another function "create_new_list" that takes a list as an argument and returns a new list with each element tripled, without modifying the orignal list.
+# Demonstrate aliasing by creating two variables that refer to the same list, then modify one and show how it affects the other.
+# Implement a function that takes a list of lists and flattens it into a single list, handling potential nested lists of varying depths.
+# Create a function that removes all occurrences of a specific element from a list in place, without creating a new list.
+# Demonstrate the difference between shallow and deep copying of nested lists. 
+# Implement a function that reverses a list in place without using the built-in reverse() method.
+# Create a main function that: 1. prompts the user to enter a list of numbers, 2. demonstrates each of the above functions with appropriate output, 3. Shows the state of the list after each operation to illustrate mutability concepts.
+# Use appropriate comments to explain your code, especially focusing on mutability and its effects.
+# Implement error handling to manage invalid user inputs and potential issues with list operations.
 
+# Function to double each element of a list (modifies the list in place)
+def modify_list(lst):
+    for i in range(len(lst)):
+        lst[i] *= 2
+
+# Function to return a new list with each element tripled (doesn't modify the original list)
+def create_new_list(lst):
+    return [x * 3 for x in lst]
+
+# Function to demonstrate aliasing by modifying one list and showing how it affects another
+def demonstrate_aliasing():
+    lst1 = [1, 2, 3]
+    lst2 = lst1  # Both lst1 and lst2 refer to the same list
+    lst1.append(4)  # Modify lst1
+    print("List 1:", lst1)
+    print("List 2 (Aliased):", lst2)  # Since lst2 is an alias of lst1, changes in lst1 affect lst2 too
+
+# Function to flatten a list of lists, handling nested lists of varying depths
+def flatten(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten(item))  # Recursively flatten if it's a list
+        else:
+            result.append(item)
+    return result
+
+# Function to remove all occurrences of a specific element from the list in place
+def remove_element(lst, element):
+    while element in lst:
+        lst.remove(element)
+
+# Function to demonstrate shallow and deep copying of lists
+def demonstrate_copying():
+    import copy
+    original = [[1, 2], [3, 4]]
+    
+    # Shallow copy: copies the top level of the list
+    shallow_copy = copy.copy(original)
+    # Deep copy: copies the entire list including nested lists
+    deep_copy = copy.deepcopy(original)
+
+    # Modify original and demonstrate the effects
+    original[0][0] = 99
+    print("Original:", original)
+    print("Shallow Copy:", shallow_copy)  # Shallow copy is affected by the change in original
+    print("Deep Copy:", deep_copy)  # Deep copy is unaffected
+
+# Function to reverse a list in place without using the built-in reverse method
+def reverse_list(lst):
+    start = 0
+    end = len(lst) - 1
+    while start < end:
+        lst[start], lst[end] = lst[end], lst[start]
+        start += 1
+        end -= 1
+
+# Main function that demonstrates all the above operations
+def main():
+    # Step 1: Prompt the user to enter a list of numbers
+    try:
+        user_input = input("Enter a list of numbers, separated by spaces: ")
+        user_list = list(map(int, user_input.split()))  # Convert input string to a list of integers
+    except ValueError:
+        print("Error: Please enter only numbers.")
+        return
+
+    # Step 2: Demonstrating each function with output
+
+    # Modify the list by doubling each element
+    print("\nOriginal list:", user_list)
+    modify_list(user_list)
+    print("After doubling elements in place:", user_list)
+
+    # Create a new list where each element is tripled (original list remains unchanged)
+    tripled_list = create_new_list(user_list)
+    print("New list with elements tripled (original unchanged):", tripled_list)
+
+    # Demonstrate aliasing
+    demonstrate_aliasing()
+
+    # Flatten a list of lists
+    nested_list = [[1, 2], [3, [4, 5]], [6]]
+    flattened = flatten(nested_list)
+    print("Flattened list:", flattened)
+
+    # Remove all occurrences of a specific element
+    print("\nOriginal list before removal:", user_list)
+    remove_element(user_list, 2)
+    print("List after removing element '2':", user_list)
+
+    # Demonstrate shallow and deep copying
+    demonstrate_copying()
+
+    # Reverse the list in place
+    reverse_list(user_list)
+    print("List after reversing in place:", user_list)
+
+# Run the main function
+if __name__ == "__main__":
+    main()
