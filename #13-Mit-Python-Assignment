@@ -1,1 +1,100 @@
+# Create a Python program that demonstrates understanding of exceptions and assertions.
+# Implement a function called "divide_numbers" that takes two parameters and returns their division. Use a try/except block to handle potential ZeroDivisionError.
+# Create a custom exception called "NegativeNumberError" and raise it if either the input numbers in the divide_numbers function is negative.
+# Create a function that converts a string to an integer, using a try/except block to handle potential ValueError.
+# Use nested try/except blocks to handle multiple possible exceptions in a single functions.
+# Implement a function that uses assertions to validate input parameters (e.g., checking if a list is sorted)
+# Create a main function that demonstrates the use of all implemented function, including both successful operations and error cases.
+# Use appropriate comments to explain your code, especially focusing on exception handling and assertion usage.
+# Include examples of how assertions can be used for debuggging purposes.
+# Implement a simple test suite using assertions to verify the correctness of your functions.
 
+
+# Custom Exception for Negative Numbers
+def negative_number_error():
+    raise Exception("NegativeNumberError: Input numbers should not be negative.")
+
+# Function to divide two numbers with error handling
+def divide_numbers(a, b):
+    try:
+        # Check if the numbers are negative
+        if a < 0 or b < 0:
+            negative_number_error()
+        
+        # Try dividing the numbers
+        result = a / b
+        return result
+
+    except ZeroDivisionError:
+        print("Error: Cannot divide by zero.")
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Function to safely convert a string to an integer
+def string_to_int(string_value):
+    try:
+        # Try converting the string to an integer
+        return int(string_value)
+    except ValueError:
+        print(f"ValueError: '{string_value}' is not a valid integer.")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
+# Function to validate if the list is sorted
+def validate_sorted_list(input_list):
+    try:
+        # Use an assertion to check if the list is sorted
+        assert input_list == sorted(input_list), "The list is not sorted!"
+    except AssertionError as e:
+        print(f"AssertionError: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
+# Main function to demonstrate the use of all functions
+def main():
+    print("Test divide_numbers:")
+    print(divide_numbers(10, 2))   # Should work fine
+    print(divide_numbers(-10, 2))  # Should raise NegativeNumberError
+    print(divide_numbers(10, 0))   # Should raise ZeroDivisionError
+    print()
+
+    print("Test string_to_int:")
+    print(string_to_int("123"))    # Should return 123
+    print(string_to_int("abc"))    # Should raise ValueError
+    print()
+
+    print("Test validate_sorted_list:")
+    validate_sorted_list([1, 2, 3, 4, 5])  # Should be valid
+    validate_sorted_list([5, 3, 1, 2, 4])  # Should raise AssertionError
+    print()
+
+# Test Suite using Assertions to verify correctness
+def test_suite():
+    # Testing divide_numbers
+    assert divide_numbers(10, 2) == 5.0, "Test Failed: 10 / 2 should be 5"
+    assert divide_numbers(-10, 2) is None, "Test Failed: -10 / 2 should raise NegativeNumberError"
+    assert divide_numbers(10, 0) is None, "Test Failed: 10 / 0 should raise ZeroDivisionError"
+
+    # Testing string_to_int
+    assert string_to_int("123") == 123, "Test Failed: '123' should convert to 123"
+    assert string_to_int("abc") is None, "Test Failed: 'abc' should raise ValueError"
+
+    # Testing validate_sorted_list
+    try:
+        validate_sorted_list([1, 2, 3])
+    except AssertionError:
+        print("Test Failed: [1, 2, 3] should be sorted")
+    
+    try:
+        validate_sorted_list([3, 2, 1])
+    except AssertionError:
+        print("Test Failed: [3, 2, 1] should raise AssertionError")
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    # Run main function to demonstrate the functionality
+    main()
+
+    # Run test suite
+    test_suite()
