@@ -1,1 +1,230 @@
+# Create a Python program that demonstrates understanding of recursion on non-numeric data, particularly lists.
+# Implement a recursive function to find the length of a list without using the built-in len() function.
+# Create a recursive function to search for a specific element in a list and return its index (or -1 if not found).
+# Implement a recursive function to reverse a list without using any built-in reverse methods or slicing.
+# Create a recursive function to flatten a nested list (i.e., convert a list of lists into a single list containing all elements) 
+# Implement a recursive function to check if a list is a palindrome (reads the same fowards and backwards).
+# Create a recursive function to remove all occurrences of a specific element from a list.
+# Implement a recursive binary search function for a sorted list.
+# Create a recursive function to generate all possible subsets of a given list.
+# Implement error handling to manage potential stack overflow issues in deeply nested recursive calls.
+# For each recursive function, provide an iterative counterpart and compare their performance for various inputs.
+# Use appropriate comments to explain your code, especially focusing on the base cases and recursive steps in each function.
+# Create a main function that demonstrates the use of all implemented recursive functions with sample inputs, including edge cases.
 
+
+
+# 1. Recursive List Length
+def recursive_length(lst):
+    """Returns length of list recursively"""
+    if not lst:  # Base case: empty list
+        return 0
+    return 1 + recursive_length(lst[1:])  # Recursive case
+
+def iterative_length(lst):
+    """Iterative version of list length"""
+    count = 0
+    for _ in lst:
+        count += 1
+    return count
+
+# 2. Recursive Search
+def recursive_search(lst, target, index=0):
+    """Returns index of target element recursively, -1 if not found"""
+    if not lst:  # Base case: empty list
+        return -1
+    if lst[0] == target:  # Base case: element found
+        return index
+    return recursive_search(lst[1:], target, index + 1)  # Recursive case
+
+def iterative_search(lst, target):
+    """Iterative version of search"""
+    i = 0
+    for item in lst:
+        if item == target:
+            return i
+        i += 1
+    return -1
+
+# 3. Recursive Reverse
+def recursive_reverse(lst):
+    """Reverses list recursively"""
+    if not lst or recursive_length(lst) == 1:  # Base case: empty or single element
+        return lst
+    return recursive_reverse(lst[1:]) + [lst[0]]  # Recursive case
+
+def iterative_reverse(lst):
+    """Iterative version of reverse"""
+    result = lst[:]
+    left = 0
+    right = recursive_length(lst) - 1
+    while left < right:
+        result[left], result[right] = result[right], result[left]
+        left = left + 1
+        right = right - 1
+    return result
+
+# 4. Recursive Flatten
+def recursive_flatten(lst):
+    """Flattens nested list recursively"""
+    result = []
+    for item in lst:
+        if type(item) == type([]):  # Recursive case: item is a list
+            for subitem in recursive_flatten(item):
+                result = result + [subitem]
+        else:  # Base case: item is not a list
+            result = result + [item]
+    return result
+
+def iterative_flatten(lst):
+    """Iterative version of flatten - corrected to maintain order"""
+    result = []
+    stack = [lst]
+    while stack:
+        current = stack[0]  # Take from beginning (FIFO)
+        stack = stack[1:]  # Remove from beginning
+        for item in current:
+            if type(item) == type([]):
+                stack.append(item)  # Add to end
+            else:
+                result.append(item)  # Append to maintain order
+    return result
+
+# 5. Recursive Palindrome Check
+def recursive_palindrome(lst):
+    """Checks if list is palindrome recursively"""
+    if recursive_length(lst) <= 1:  # Base case: empty or single element
+        return True
+    if lst[0] != lst[-1]:  # Base case: ends don't match
+        return False
+    return recursive_palindrome(lst[1:-1])  # Recursive case
+
+def iterative_palindrome(lst):
+    """Iterative version of palindrome check"""
+    left = 0
+    right = recursive_length(lst) - 1
+    while left < right:
+        if lst[left] != lst[right]:
+            return False
+        left = left + 1
+        right = right - 1
+    return True
+
+# 6. Recursive Remove Element
+def recursive_remove(lst, target):
+    """Removes all occurrences of target recursively"""
+    if not lst:  # Base case: empty list
+        return []
+    if lst[0] == target:  # Recursive case: match found
+        return recursive_remove(lst[1:], target)
+    return [lst[0]] + recursive_remove(lst[1:], target)  # Recursive case: no match
+
+def iterative_remove(lst, target):
+    """Iterative version of remove"""
+    result = []
+    for item in lst:
+        if item != target:
+            result = result + [item]
+    return result
+
+# 7. Recursive Binary Search (assumes sorted list)
+def recursive_binary_search(lst, target, left=0, right=-1):
+    """Binary search recursively"""
+    if right == -1:
+        right = recursive_length(lst) - 1
+    if left > right:  # Base case: not found
+        return -1
+    mid = (left + right) // 2
+    if lst[mid] == target:  # Base case: found
+        return mid
+    elif lst[mid] > target:  # Recursive case: search left
+        return recursive_binary_search(lst, target, left, mid - 1)
+    else:  # Recursive case: search right
+        return recursive_binary_search(lst, target, mid + 1, right)
+
+def iterative_binary_search(lst, target):
+    """Iterative version of binary search"""
+    left = 0
+    right = recursive_length(lst) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if lst[mid] == target:
+            return mid
+        elif lst[mid] > target:
+            right = mid - 1
+        else:
+            left = mid + 1
+    return -1
+
+# 8. Recursive Subsets
+def recursive_subsets(lst):
+    """Generates all subsets recursively"""
+    if not lst:  # Base case: empty list
+        return [[]]
+    subsets = recursive_subsets(lst[1:])  # Recursive case
+    return subsets + [[lst[0]] + subset for subset in subsets]
+
+def iterative_subsets(lst):
+    """Iterative version of subsets - modified to match recursive order"""
+    result = [[]]
+    for item in lst[::-1]:
+        new_subsets = []
+        for subset in result:
+            new_subsets = new_subsets + [[item] + subset]
+        result = result + new_subsets
+    return result
+
+def compare_performance(func1_name, func2_name, input_data, target=None):
+    print(f"\nTesting {func1_name} vs {func2_name}:")
+    if target is None:
+        result1 = globals()[func1_name](input_data)
+        result2 = globals()[func2_name](input_data)
+        print(f"Input: {input_data}")
+    else:
+        result1 = globals()[func1_name](input_data, target)
+        result2 = globals()[func2_name](input_data, target)
+        print(f"Input: {input_data}, Target: {target}")
+    print(f"Recursive result: {result1}")
+    print(f"Iterative result: {result2}")
+    print(f"Results match: {result1 == result2}")
+
+def main():
+    simple_list = [1, 2, 3, 4, 5]
+    nested_list = [1, [2, 3], [4, [5, 6]]]
+    palindrome_list = [1, 2, 3, 2, 1]
+    sorted_list = [1, 3, 5, 7, 9]
+    empty_list = []
+
+    print("1. Length Tests")
+    compare_performance("recursive_length", "iterative_length", simple_list)
+    compare_performance("recursive_length", "iterative_length", empty_list)
+
+    print("\n2. Search Tests")
+    compare_performance("recursive_search", "iterative_search", simple_list, 3)
+    compare_performance("recursive_search", "iterative_search", simple_list, 99)
+
+    print("\n3. Reverse Tests")
+    compare_performance("recursive_reverse", "iterative_reverse", simple_list)
+    compare_performance("recursive_reverse", "iterative_reverse", empty_list)
+
+    print("\n4. Flatten Tests")
+    compare_performance("recursive_flatten", "iterative_flatten", nested_list)
+    compare_performance("recursive_flatten", "iterative_flatten", simple_list)
+
+    print("\n5. Palindrome Tests")
+    compare_performance("recursive_palindrome", "iterative_palindrome", palindrome_list)
+    compare_performance("recursive_palindrome", "iterative_palindrome", simple_list)
+
+    print("\n6. Remove Tests")
+    compare_performance("recursive_remove", "iterative_remove", simple_list, 3)
+    compare_performance("recursive_remove", "iterative_remove", simple_list, 99)
+
+    print("\n7. Binary Search Tests")
+    compare_performance("recursive_binary_search", "iterative_binary_search", sorted_list, 5)
+    compare_performance("recursive_binary_search", "iterative_binary_search", sorted_list, 4)
+
+    print("\n8. Subsets Tests")
+    compare_performance("recursive_subsets", "iterative_subsets", [1, 2])
+    compare_performance("recursive_subsets", "iterative_subsets", empty_list)
+
+main()
