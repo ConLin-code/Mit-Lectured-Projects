@@ -1,1 +1,129 @@
+# Create a python program that simulates a simple grade book system using dictionaries. 
+#Initialize a function to add a new student to store student information.
+#Implement a function to add a new student to the grade book. It should take a student name and an initial grade as parameters
+# Create a function to update a studnet's grade, taking the student name and new grade as parameters.
+# Implement a function to remove a studnet from the grade book.
+# Create a function to remove a student from the grade book
+# Implement a function to display all students and their grades.
+# Create a function to find and return the name(s) of the student(s) with the highest grade.
+#Use a loop to allow the user to interact with the grade book system, providing options to add students, update grades, remove studnets, display all grades, show the average grade, and find the top student(s)
+# Implement error handling for cases such as trying to update a grade for a non-existant student or removing a studnet who isn't in the grade book
+# Use appropriate comments to explain your code, especially focusing on dictionary operations and any efficiency considerations.
 
+
+# Initialize an empty dictionary to store student names and their grades
+grade_book = {}
+
+# Function to add a new student with an initial grade
+def add_student(name, grade):
+    if name in grade_book:
+        print(f"Student {name} is already in the grade book.")
+    else:
+        grade_book[name] = grade
+        print(f"Student {name} added with grade {grade}.")
+
+# Function to update a student's grade
+def update_grade(name, new_grade):
+    if name not in grade_book:
+        print(f"Error: Student {name} not found in the grade book.")
+    else:
+        grade_book[name] = new_grade
+        print(f"Grade for {name} updated to {new_grade}.")
+
+# Function to remove a student from the grade book
+def remove_student(name):
+    if name not in grade_book:
+        print(f"Error: Student {name} not found in the grade book.")
+    else:
+        del grade_book[name]
+        print(f"Student {name} removed from the grade book.")
+
+# Function to display all students and their grades
+def display_all_students():
+    if not grade_book:
+        print("The grade book is empty.")
+    else:
+        print("Student Grades:")
+        for name, grade in grade_book.items():
+            print(f"{name}: {grade}")
+
+# Function to find and return the name(s) of the student(s) with the highest grade
+def top_students():
+    if not grade_book:
+        print("The grade book is empty.")
+        return []
+    max_grade = max(grade_book.values())
+    top_students_list = [name for name, grade in grade_book.items() if grade == max_grade]
+    return top_students_list
+
+# Function to calculate the average grade
+def average_grade():
+    if not grade_book:
+        print("The grade book is empty.")
+        return 0
+    avg = sum(grade_book.values()) / len(grade_book)
+    return avg
+
+# Main loop to interact with the grade book system
+def main():
+    while True:
+        print("\nGrade Book Menu:")
+        print("1. Add a new student")
+        print("2. Update a student's grade")
+        print("3. Remove a student")
+        print("4. Display all students and their grades")
+        print("5. Find the top student(s)")
+        print("6. Show the average grade")
+        print("7. Exit")
+
+        # Get the user's choice
+        choice = input("Enter your choice (1-7): ")
+
+        if choice == '1':
+            name = input("Enter the student's name: ")
+            try:
+                grade = float(input(f"Enter {name}'s grade: "))
+                add_student(name, grade)
+            except ValueError:
+                print("Invalid input for grade. Please enter a valid number.")
+
+        elif choice == '2':
+            name = input("Enter the student's name: ")
+            try:
+                new_grade = float(input(f"Enter the new grade for {name}: "))
+                update_grade(name, new_grade)
+            except ValueError:
+                print("Invalid input for grade. Please enter a valid number.")
+
+        elif choice == '3':
+            name = input("Enter the student's name to remove: ")
+            remove_student(name)
+
+        elif choice == '4':
+            display_all_students()
+
+        elif choice == '5':
+            top_students_list = top_students()
+            if top_students_list:
+                print("Top student(s):")
+                for student in top_students_list:
+                    print(student)
+            else:
+                print("No top student found.")
+
+        elif choice == '6':
+            avg = average_grade()
+            if avg:
+                print(f"The average grade is: {avg:.2f}")
+            else:
+                print("No grades to calculate the average.")
+
+        elif choice == '7':
+            print("Exiting the grade book system.")
+            break
+
+        else:
+            print("Invalid choice, please try again.")
+
+if __name__ == "__main__":
+    main()
