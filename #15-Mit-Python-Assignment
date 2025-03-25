@@ -1,1 +1,168 @@
+# Create a python program that demonstrates understanding of recursion concepts.
+# Implement a recursive function to claculate the factorial of a given number.
+# Create a recursive function to generate the nth Fibonacci number.
+# Implement a recursive function to reverse a string.
+# Create a recursive function to calculate the sum of digits of a given number.
+# Implement a recursive binary search algorithm for a sorted list.
+# Create a recursive function to generate all permutations of a given string.
+# Implement a recursive funciotn to solve the Tower of Hanoi problem.
+# Create a recursive function to findt he greatest common divisor (GCD) of two numbers using the Euclidean algorithm.
+# Implement error handling to manage potential stack overflow issues in deeply nested recursive calls.
+# For each recursive function, provide an iterative counterpart and compare their performance for various inputs.
+# Use appropriate comments to explain your code, especially focusing on the base cases and recursive steps in each function
+# Create a main function that demonstrates the use of all implemented recursive functions with sample inputs
 
+
+# 1. Recursive function to calculate the factorial of a given number
+def factorial_recursive(n):
+    # Base case
+    if n == 0 or n == 1:
+        return 1
+    # Recursive case
+    return n * factorial_recursive(n - 1)
+
+# Iterative version of factorial
+def factorial_iterative(n):
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    return result
+
+# 2. Recursive function to generate the nth Fibonacci number
+def fibonacci_recursive(n):
+    # Base cases
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    # Recursive case
+    return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
+
+# Iterative version of Fibonacci
+def fibonacci_iterative(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+# 3. Recursive function to reverse a string
+def reverse_string_recursive(s):
+    # Base case
+    if len(s) == 0:
+        return s
+    # Recursive case
+    return reverse_string_recursive(s[1:]) + s[0]
+
+# Iterative version of string reversal
+def reverse_string_iterative(s):
+    return s[::-1]
+
+# 4. Recursive function to calculate the sum of digits of a given number
+def sum_of_digits_recursive(n):
+    # Base case
+    if n == 0:
+        return 0
+    # Recursive case
+    return n % 10 + sum_of_digits_recursive(n // 10)
+
+# Iterative version of sum of digits
+def sum_of_digits_iterative(n):
+    total = 0
+    while n > 0:
+        total += n % 10
+        n = n // 10
+    return total
+
+# 5. Recursive binary search algorithm for a sorted list
+def binary_search_recursive(arr, target, left, right):
+    # Base case: if the array is empty
+    if left > right:
+        return -1
+    # Recursive case
+    mid = (left + right) // 2
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] > target:
+        return binary_search_recursive(arr, target, left, mid - 1)
+    else:
+        return binary_search_recursive(arr, target, mid + 1, right)
+
+# Iterative binary search
+def binary_search_iterative(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] > target:
+            right = mid - 1
+        else:
+            left = mid + 1
+    return -1
+
+# 6. Recursive function to generate all permutations of a given string
+def generate_permutations_recursive(s):
+    # Base case: if the string is empty or contains a single character
+    if len(s) == 0:
+        return ['']
+    # Recursive case
+    permutations = []
+    for i in range(len(s)):
+        char = s[i]
+        remaining_str = s[:i] + s[i + 1:]
+        for perm in generate_permutations_recursive(remaining_str):
+            permutations.append(char + perm)
+    return permutations
+
+# 7. Recursive function to solve the Tower of Hanoi problem
+def tower_of_hanoi_recursive(n, source, target, auxiliary):
+    if n == 1:
+        print(f"Move disk 1 from {source} to {target}")
+        return
+    tower_of_hanoi_recursive(n - 1, source, auxiliary, target)
+    print(f"Move disk {n} from {source} to {target}")
+    tower_of_hanoi_recursive(n - 1, auxiliary, target, source)
+
+# 8. Recursive function to find the greatest common divisor (GCD) of two numbers using the Euclidean algorithm
+def gcd_recursive(a, b):
+    # Base case: when one number is 0, the GCD is the other number
+    if b == 0:
+        return a
+    # Recursive case
+    return gcd_recursive(b, a % b)
+
+# Main function to demonstrate the use of all recursive functions
+def main():
+    # Demonstrating factorials
+    print("Factorial (Recursive):", factorial_recursive(5))
+    print("Factorial (Iterative):", factorial_iterative(5))
+
+    # Demonstrating Fibonacci numbers
+    print("Fibonacci (Recursive):", fibonacci_recursive(6))
+    print("Fibonacci (Iterative):", fibonacci_iterative(6))
+
+    # Demonstrating string reversal
+    print("Reversed string (Recursive):", reverse_string_recursive("hello"))
+    print("Reversed string (Iterative):", reverse_string_iterative("hello"))
+
+    # Demonstrating sum of digits
+    print("Sum of digits (Recursive):", sum_of_digits_recursive(12345))
+    print("Sum of digits (Iterative):", sum_of_digits_iterative(12345))
+
+    # Demonstrating binary search
+    sorted_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    print("Binary Search (Recursive):", binary_search_recursive(sorted_list, 7, 0, len(sorted_list) - 1))
+    print("Binary Search (Iterative):", binary_search_iterative(sorted_list, 7))
+
+    # Demonstrating string permutations
+    print("Permutations (Recursive):", generate_permutations_recursive("abc"))
+
+    # Demonstrating Tower of Hanoi
+    print("Tower of Hanoi Moves (Recursive):")
+    tower_of_hanoi_recursive(3, 'A', 'C', 'B')
+
+    # Demonstrating GCD
+    print("GCD (Recursive):", gcd_recursive(56, 98))
+
+if __name__ == "__main__":
+    main()
