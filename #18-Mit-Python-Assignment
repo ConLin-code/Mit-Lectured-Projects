@@ -1,1 +1,173 @@
+# Create a python program that implements a custom PlayingCard class with the following requirements
+# The PlayingCard class should have attributes for suit and rank
+# Implement the init method to initialize a card with a given suit and rank.
+# Create a str method that returns a string representation of the card (e.g., "Ace of Spades")
+# Implement a repr method that returns a string that could be used to recreate the object
+# Overload the == operator using the eq method to compare two cards based on their rank and suit.
+# Implement the lt method to allow sorting of cards (consider Aces high)
+# Create a class method called create_deck that returns a full deck of 52 cards as a list of PlayingCard objects
+# Implement a static method called is_face_card that returns True if the card is a Jack, Queen, or King.
+# Make the PlayingCard class iterable, so that iterating over a card yields its suit and rank.
+# Create a Deck class that uses PlayingCard class. The Deck class should: Have a list of PlayingCard objects, implement len to return the number of cards in the deck, have a shuffle method to randomize the order of cards, and implement a deal method to remove and return the top card from the deck
+# Demonstrate the usage of all implemented methods and features in a main function
+# Use appropriate comments to explain your code, especially focusing on the implementation of special methods.
 
+class PlayingCard:
+    
+    SUITS = ('Hearts', 'Diamonds', 'Clubs', 'Spades')
+    RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace')
+    
+    def __init__(self, suit, rank):
+        """Initialize a playing card with suit and rank."""
+        if suit not in self.SUITS:
+            raise ValueError(f"Invalid suit. Must be one of: {self.SUITS}")
+        if rank not in self.RANKS:
+            raise ValueError(f"Invalid rank. Must be one of: {self.RANKS}")
+            
+        self.suit = suit
+        self.rank = rank
+        self._iter_index = 0
+
+    def __str__(self):
+        """Return a human-readable string representation of the card."""
+        return f"{self.rank} of {self.suit}"
+
+    def __repr__(self):
+        """Return a string that could be used to recreate the object."""
+        return f"PlayingCard('{self.suit}', '{self.rank}')"
+
+    def __eq__(self, other):
+        """Check if two cards have the same rank and suit."""
+        if not isinstance(other, PlayingCard):
+            return NotImplemented
+        return self.rank == other.rank and self.suit == other.suit
+
+    def __lt__(self, other):
+        """Compare cards based on rank (Aces high) then suit."""
+        if not isinstance(other, PlayingCard):
+            return NotImplemented
+            
+        # Compare ranks first (Aces high)
+        self_rank_index = self.RANKS.index(self.rank)
+        other_rank_index = self.RANKS.index(other.rank)
+        
+        if self_rank_index != other_rank_index:
+            return self_rank_index < other_rank_index
+            
+        # If ranks are equal, compare suits
+        return self.SUITS.index(self.suit) < self.SUITS.index(other.suit)
+
+    def __iter__(self):
+        """Make the card iterable, yielding suit and rank."""
+        self._iter_index = 0
+        return self
+
+    def __next__(self):
+        """Iterator implementation to yield suit and rank."""
+        if self._iter_index == 0:
+            self._iter_index += 1
+            return self.suit
+        elif self._iter_index == 1:
+            self._iter_index += 1
+            return self.rank
+        raise StopIteration
+
+    @classmethod
+    def create_deck(cls):
+        """Create a standard deck of 52 playing cards."""
+        return [cls(suit, rank) for suit in cls.SUITS for rank in cls.RANKS]
+
+    @staticmethod
+    def is_face_card(rank):
+        """Check if a given rank is a face card (Jack, Queen, King)."""
+        return rank in ('Jack', 'Queen', 'King')
+
+
+class Deck:
+    """A class representing a deck of playing cards."""
+    
+    def __init__(self):
+        """Initialize a new deck with 52 cards."""
+        self.cards = PlayingCard.create_deck()
+        
+    def __len__(self):
+        """Return the number of cards remaining in the deck."""
+        return len(self.cards)
+        
+    def shuffle(self):
+        """Randomize the order of cards in the deck using Fisher-Yates algorithm."""
+        n = len(self.cards)
+        for i in range(n-1, 0, -1):
+            j = (i * 1103515245 + 12345) % (i + 1)  # Linear congruential generator
+            self.cards[i], self.cards[j] = self.cards[j], self.cards[i]
+        
+    def deal(self):
+        """Remove and return the top card from the deck."""
+        if not self.cards:
+            raise IndexError("Cannot deal from an empty deck")
+        return self.cards.pop()
+
+
+def main():
+    """Demonstrate all features of the PlayingCard and Deck classes."""
+    
+    # Create and display some individual cards
+    card1 = PlayingCard('Hearts', 'Ace')
+    card2 = PlayingCard('Spades', 'King')
+    card3 = PlayingCard('Diamonds', '7')
+    
+    print("\nIndividual Cards:")
+    print(f"Card 1: {card1}")
+    print(f"Card 2: {card2}")
+    print(f"Card 3: {card3}")
+    
+    # Demonstrate __repr__ and recreation
+    print("\nCard representation and recreation:")
+    print(f"repr(card1): {repr(card1)}")
+    recreated_card = eval(repr(card1))
+    print(f"Recreated card: {recreated_card}")
+    
+    # Demonstrate equality comparison
+    print("\nCard comparisons:")
+    print(f"Is card1 == card2? {card1 == card2}")
+    print(f"Is card1 == card1? {card1 == card1}")
+    
+    # Demonstrate less than comparison
+    print("\nCard ordering (Aces high, then by suit):")
+    print(f"Is card1 < card2? {card1 < card2}")  # Ace > King
+    print(f"Is card3 < card2? {card3 < card2}")  # 7 < King
+    
+    # Demonstrate is_face_card static method
+    print("\nFace card checks:")
+    print(f"Is {card2.rank} a face card? {PlayingCard.is_face_card(card2.rank)}")
+    print(f"Is {card3.rank} a face card? {PlayingCard.is_face_card(card3.rank)}")
+    
+    # Demonstrate iterating over a card
+    print("\nIterating over a card (yields suit then rank):")
+    for attribute in card1:
+        print(f"Card attribute: {attribute}")
+    
+    # Demonstrate Deck functionality
+    print("\nDeck operations:")
+    deck = Deck()
+    print(f"Initial deck has {len(deck)} cards")
+    
+    # Shuffle and deal some cards
+    deck.shuffle()
+    print("\nDealing 5 cards from shuffled deck:")
+    for _ in range(5):
+        dealt_card = deck.deal()
+        print(f"Dealt: {dealt_card}")
+    
+    print(f"Cards remaining in deck: {len(deck)}")
+    
+    # Demonstrate create_deck class method
+    print("\nCreating a new deck with class method:")
+    new_deck = PlayingCard.create_deck()
+    print(f"New deck has {len(new_deck)} cards")
+    print(f"First card: {new_deck[0]}")
+    print(f"Last card: {new_deck[-1]}")
+
+
+if __name__ == "__main__":
+    main()
