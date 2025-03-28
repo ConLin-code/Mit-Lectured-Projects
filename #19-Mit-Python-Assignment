@@ -1,1 +1,222 @@
+# Create a python program that demonstrates the concept of inheritance by simulating a simple university management system
+# Define a base class called Person with attributes for name and age, and a method to display basic information
+# Create a Student class that inherits from Person. Add attributes for student ID and major, and override the display method to include student-specific information
+# Create a Professor class that also inherits from Person. Add attributes for employee ID and department, and override the display method for professor-specific infromation
+# Implement a Course class that has attributes for course name, code, and a list of enrolled students. Include methods to add students to the course and display course information.
+# Create a GraduateStudent class that inherits from Student. Add an attribute for thesis topic and override the display method accordingly
+# Implement a method in the Course class that can determine if a person (Student, topic and override the display method accordingly)
+# Demonstrate the use of super() to call methods from the parent class.
+# Create instances of each class and demonstrate inheritance by calling methods and accessing attributes from both the parent and child classes.
+# Use isinstance() and issubclass() to perform type checking and demonstrate their usage in the context of your class hierarchy.
+# Implement proper error handling for invalid operations (e.g., trying to enroll a Professor in a course)
+# Add appropriate comments to explain your code, especially focusing on how inheritance is implemented and used.
+
+
+class Person:
+    """Base class representing a person in the university system."""
+    
+    def __init__(self, name: str, age: int):
+        """
+        Initialize a Person with name and age.
+        
+        Args:
+            name: The person's name
+            age: The person's age
+        """
+        self.name = name
+        self.age = age
+    
+    def display_info(self):
+        """Display basic information about the person."""
+        print(f"Name: {self.name}")
+        print(f"Age: {self.age}")
+    
+    def __str__(self):
+        """String representation of the person."""
+        return f"{self.name}, {self.age} years old"
+
+
+class Student(Person):
+    """Class representing a student, inheriting from Person."""
+    
+    def __init__(self, name: str, age: int, student_id: str, major: str):
+        """
+        Initialize a Student.
+        
+        Args:
+            name: The student's name
+            age: The student's age
+            student_id: The student's ID
+            major: The student's major
+        """
+        super().__init__(name, age)  # Call parent class constructor
+        self.student_id = student_id
+        self.major = major
+    
+    def display_info(self):
+        """Override to display student-specific information."""
+        super().display_info()  # Call parent class method
+        print(f"Student ID: {self.student_id}")
+        print(f"Major: {self.major}")
+    
+    def __str__(self):
+        """String representation of the student."""
+        return f"{super().__str__()}, Student ID: {self.student_id}, Major: {self.major}"
+
+
+class GraduateStudent(Student):
+    """Class representing a graduate student, inheriting from Student."""
+    
+    def __init__(self, name: str, age: int, student_id: str, major: str, thesis_topic: str):
+        """
+        Initialize a GraduateStudent.
+        
+        Args:
+            thesis_topic: The graduate student's thesis topic
+        """
+        super().__init__(name, age, student_id, major)
+        self.thesis_topic = thesis_topic
+    
+    def display_info(self):
+        """Override to display graduate student information."""
+        super().display_info()  # Call parent class method
+        print(f"Thesis Topic: {self.thesis_topic}")
+    
+    def __str__(self):
+        """String representation of the graduate student."""
+        return f"{super().__str__()}, Thesis: {self.thesis_topic}"
+
+
+class Professor(Person):
+    """Class representing a professor, inheriting from Person."""
+    
+    def __init__(self, name: str, age: int, employee_id: str, department: str):
+        """
+        Initialize a Professor.
+        
+        Args:
+            employee_id: The professor's employee ID
+            department: The professor's department
+        """
+        super().__init__(name, age)
+        self.employee_id = employee_id
+        self.department = department
+    
+    def display_info(self):
+        """Override to display professor-specific information."""
+        super().display_info()
+        print(f"Employee ID: {self.employee_id}")
+        print(f"Department: {self.department}")
+    
+    def __str__(self):
+        """String representation of the professor."""
+        return f"{super().__str__()}, Employee ID: {self.employee_id}, Department: {self.department}"
+
+
+class Course:
+    """Class representing a university course."""
+    
+    def __init__(self, course_name: str, course_code: str):
+        """
+        Initialize a Course.
+        
+        Args:
+            course_name: The name of the course
+            course_code: The course code
+        """
+        self.course_name = course_name
+        self.course_code = course_code
+        self.enrolled_students = []
+    
+    def add_student(self, person):
+        """
+        Add a student to the course.
+        
+        Args:
+            person: The person to add (must be a Student)
+            
+        Raises:
+            TypeError: If person is not a Student
+        """
+        if not isinstance(person, Student):
+            raise TypeError("Only students can be enrolled in courses")
+        self.enrolled_students.append(person)
+        print(f"Added {person.name} to {self.course_name}")
+    
+    def display_course_info(self):
+        """Display information about the course and enrolled students."""
+        print(f"\nCourse: {self.course_name} ({self.course_code})")
+        print("Enrolled Students:")
+        for student in self.enrolled_students:
+            print(f"- {student.name} ({student.student_id})")
+    
+    def is_student_enrolled(self, person):
+        """
+        Check if a person is enrolled in the course.
+        
+        Args:
+            person: The person to check
+            
+        Returns:
+            bool: True if the person is a student and enrolled, False otherwise
+        """
+        return isinstance(person, Student) and person in self.enrolled_students
+
+
+def main():
+    """Demonstrate the university management system."""
+    
+    # Create instances of each class
+    person = Person("John Doe", 30)
+    student = Student("Alice Smith", 20, "S1001", "Computer Science")
+    grad_student = GraduateStudent("Bob Johnson", 25, "G2001", "Physics", "Quantum Mechanics")
+    professor = Professor("Dr. Emily Davis", 45, "P3001", "Mathematics")
+    
+    # Create a course
+    cs101 = Course("Introduction to Programming", "CS101")
+    
+    # Demonstrate inheritance and method overriding
+    print("\n=== Displaying Information ===")
+    print("\nPerson:")
+    person.display_info()
+    
+    print("\nStudent:")
+    student.display_info()
+    
+    print("\nGraduate Student:")
+    grad_student.display_info()
+    
+    print("\nProfessor:")
+    professor.display_info()
+    
+    # Demonstrate course enrollment
+    print("\n=== Course Enrollment ===")
+    cs101.add_student(student)
+    cs101.add_student(grad_student)
+    
+    try:
+        cs101.add_student(professor)  # This should raise an error
+    except TypeError as e:
+        print(f"Error: {e}")
+    
+    cs101.display_course_info()
+    
+    # Demonstrate type checking
+    print("\n=== Type Checking ===")
+    print(f"Is student a Person? {isinstance(student, Person)}")  # True
+    print(f"Is grad_student a Student? {isinstance(grad_student, Student)}")  # True
+    print(f"Is professor a Student? {isinstance(professor, Student)}")  # False
+    print(f"Is Student a subclass of Person? {issubclass(Student, Person)}")  # True
+    print(f"Is GraduateStudent a subclass of Student? {issubclass(GraduateStudent, Student)}")  # True
+    
+    # Demonstrate course enrollment check
+    print("\n=== Enrollment Check ===")
+    print(f"Is {student.name} enrolled? {cs101.is_student_enrolled(student)}")  # True
+    print(f"Is {professor.name} enrolled? {cs101.is_student_enrolled(professor)}")  # False
+
+
+if __name__ == "__main__":
+    main()
+
+
 
