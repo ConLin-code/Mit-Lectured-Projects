@@ -1,15 +1,154 @@
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+# Create a python program that simulates a simple library managament system using classes.
+# Define a class called Book with the following attributes and methods: Attributes: title, author, ISBN, available (boolean); Methods: init
+# Define a class called Library with the following attributes and methods: Attributes: name, books ( a list of Book objects); Methods: init
+# Implement appropriate error handling for cases such as trying to check out an unavailable book or returning a book that's already available
+# Create instances of the Book class for at least 5 different books.
+# Create an instance of the Library class and add the books to it.
+# Implement a simple menu-driven interface that allows users to: Add a new book to the library, display all available books, check out a book, return a book, and exit the program
+# Use appropriate comments to explain your code, especially focusing on class structure and method implementationsn
+# Demonstrate the use of encapsulation by making certain attributes private and providing getter and setter methods if necessary
 
 
+class Book:
+    def __init__(self, title, author, isbn):
+        """Initialize a Book object with title, author, ISBN, and availability status."""
+        self.title = title
+        self.author = author
+        self.isbn = isbn
+        self._available = True  # Made private to demonstrate encapsulation
 
+    def is_available(self):
+        """Return the availability status of the book."""
+        return self._available
+
+    def set_available(self, status):
+        """Set the availability status of the book."""
+        if not isinstance(status, bool):
+            raise ValueError("Availability status must be a boolean value")
+        self._available = status
+
+    def __str__(self):
+        """Return a string representation of the book."""
+        status = "Available" if self._available else "Checked Out"
+        return f"'{self.title}' by {self.author} (ISBN: {self.isbn}) - {status}"
+
+
+class Library:
+    def __init__(self, name):
+        """Initialize a Library object with a name and an empty list of books."""
+        self.name = name
+        self.books = []
+
+    def add_book(self, book):
+        """Add a book to the library's collection."""
+        if not isinstance(book, Book):
+            raise TypeError("Only Book objects can be added to the library")
+        self.books.append(book)
+        print(f"Book '{book.title}' added successfully to {self.name}.")
+
+    def find_book_by_isbn(self, isbn):
+        """Find a book in the library by its ISBN."""
+        for book in self.books:
+            if book.isbn == isbn:
+                return book
+        return None
+
+    def display_available_books(self):
+        """Display all available books in the library."""
+        print("\nAvailable Books:")
+        available_books = [book for book in self.books if book.is_available()]
+        if not available_books:
+            print("No available books at the moment.")
+        else:
+            for book in available_books:
+                print(book)
+
+    def check_out_book(self, isbn):
+        """Check out a book from the library."""
+        book = self.find_book_by_isbn(isbn)
+        if not book:
+            print("Book not found in the library.")
+            return
+
+        if not book.is_available():
+            print("Sorry, this book is already checked out.")
+        else:
+            book.set_available(False)
+            print(f"You have successfully checked out '{book.title}'.")
+
+    def return_book(self, isbn):
+        """Return a book to the library."""
+        book = self.find_book_by_isbn(isbn)
+        if not book:
+            print("Book not found in the library.")
+            return
+
+        if book.is_available():
+            print("This book is already in the library. No need to return.")
+        else:
+            book.set_available(True)
+            print(f"Thank you for returning '{book.title}'.")
+
+
+def display_menu():
+    """Display the main menu options."""
+    print("\n===== Library Management System =====")
+    print("1. Add a new book to the library")
+    print("2. Display all available books")
+    print("3. Check out a book")
+    print("4. Return a book")
+    print("5. Exit")
+
+
+def get_book_details():
+    """Get book details from user input."""
+    title = input("Enter book title: ")
+    author = input("Enter author name: ")
+    isbn = input("Enter ISBN: ")
+    return title, author, isbn
+
+
+def main():
+    # Create some sample books
+    book1 = Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565")
+    book2 = Book("To Kill a Mockingbird", "Harper Lee", "9780061120084")
+    book3 = Book("1984", "George Orwell", "9780451524935")
+    book4 = Book("Pride and Prejudice", "Jane Austen", "9780141439518")
+    book5 = Book("The Hobbit", "J.R.R. Tolkien", "9780547928227")
+
+    # Create a library and add the books
+    my_library = Library("Central Public Library")
+    my_library.add_book(book1)
+    my_library.add_book(book2)
+    my_library.add_book(book3)
+    my_library.add_book(book4)
+    my_library.add_book(book5)
+
+    while True:
+        display_menu()
+        choice = input("Enter your choice (1-5): ")
+
+        try:
+            if choice == "1":
+                title, author, isbn = get_book_details()
+                new_book = Book(title, author, isbn)
+                my_library.add_book(new_book)
+            elif choice == "2":
+                my_library.display_available_books()
+            elif choice == "3":
+                isbn = input("Enter ISBN of the book you want to check out: ")
+                my_library.check_out_book(isbn)
+            elif choice == "4":
+                isbn = input("Enter ISBN of the book you want to return: ")
+                my_library.return_book(isbn)
+            elif choice == "5":
+                print("Thank you for using the Library Management System. Goodbye!")
+                break
+            else:
+                print("Invalid choice. Please enter a number between 1 and 5.")
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+
+
+if __name__ == "__main__":
+    main()
