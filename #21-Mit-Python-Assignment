@@ -1,1 +1,170 @@
+#Implement three different sorting algorithms (e.g., bubble sort, insertion sort, and merge sort).
+#Create a function that generates a list of random integers of a specified size.
+#Use the time module to measure and compare the execution time of each sorting algorithm for different input sizes (e.g., 100, 1000, 10000 elements).
+#Implement a function that counts the number of comparisons and swaps for each sorting algorithm.
+#Use the timeit module to get a more accurate measure of the execution time for small input sizes.
+#Create a function that estimates the order of growth for each algorithm based on the operation counts for different input sizes.
+#Implement error handling for invalid inputs.
+#Create a main function that:
+#Allows the user to choose a sorting algorithm
+#Prompts for the size of the input
+#Runs the chosen algorithm and displays:The execution time
+#Generate a report that compares the efficiency of the three sorting algorithms in terms of:
+#Execution time for different input sizes
+#Number of operations (comparisons and swaps)
+#Estimated order of growth
+#Add appropriate comments to explain your code, especially focusing on how you're evaluating program efficiency.
 
+
+
+import random
+import time
+import timeit
+import math
+
+# Function to generate a list of random integers
+def generate_random_list(size):
+    if size <= 0:
+        raise ValueError("Size must be a positive integer.")
+    return [random.randint(0, 10000) for _ in range(size)]
+
+# Bubble Sort with operation counting
+def bubble_sort(arr):
+    comparisons = swaps = 0
+    n = len(arr)
+    data = arr[:]
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            comparisons += 1
+            if data[j] > data[j + 1]:
+                swaps += 1
+                data[j], data[j + 1] = data[j + 1], data[j]
+    return data, comparisons, swaps
+
+# Insertion Sort with operation counting
+def insertion_sort(arr):
+    comparisons = swaps = 0
+    data = arr[:]
+    for i in range(1, len(data)):
+        key = data[i]
+        j = i - 1
+        while j >= 0 and data[j] > key:
+            comparisons += 1
+            swaps += 1
+            data[j + 1] = data[j]
+            j -= 1
+        comparisons += 1  # last failed comparison
+        data[j + 1] = key
+    return data, comparisons, swaps
+
+# Merge Sort with operation counting
+def merge_sort(arr):
+    comparisons = swaps = 0
+
+    def merge_sort_recursive(data):
+        nonlocal comparisons, swaps
+        if len(data) <= 1:
+            return data
+
+        mid = len(data) // 2
+        left = merge_sort_recursive(data[:mid])
+        right = merge_sort_recursive(data[mid:])
+        return merge(left, right)
+
+    def merge(left, right):
+        nonlocal comparisons, swaps
+        result = []
+        i = j = 0
+        while i < len(left) and j < len(right):
+            comparisons += 1
+            if left[i] <= right[j]:
+                result.append(left[i])
+                i += 1
+            else:
+                result.append(right[j])
+                j += 1
+                swaps += 1
+        result.extend(left[i:])
+        result.extend(right[j:])
+        return result
+
+    sorted_list = merge_sort_recursive(arr[:])
+    return sorted_list, comparisons, swaps
+
+# Measure execution time with timeit (more accurate for small inputs)
+def measure_time(algorithm, arr):
+    setup = f"from __main__ import {algorithm.__name__}, test_list"
+    stmt = f"{algorithm.__name__}(test_list)"
+    global test_list
+    test_list = arr[:]  # avoid modifying original list
+    return timeit.timeit(stmt, setup=setup, number=1)
+
+# Estimate order of growth
+def estimate_order(size_list, operations_list):
+    ratios = []
+    for i in range(1, len(size_list)):
+        if operations_list[i-1] == 0:
+            continue
+        ratio = operations_list[i] / operations_list[i - 1]
+        size_ratio = size_list[i] / size_list[i - 1]
+        if size_ratio > 1:
+            order = math.log(ratio) / math.log(size_ratio)
+            ratios.append(order)
+    return sum(ratios) / len(ratios) if ratios else 0
+
+# Main function for CLI interaction
+def main():
+    algorithms = {
+        "1": ("Bubble Sort", bubble_sort),
+        "2": ("Insertion Sort", insertion_sort),
+        "3": ("Merge Sort", merge_sort)
+    }
+
+    print("\n--- Sorting Algorithm Efficiency Analyzer ---")
+    for key, (name, _) in algorithms.items():
+        print(f"{key}. {name}")
+
+    choice = input("Choose a sorting algorithm (1-3): ")
+    if choice not in algorithms:
+        print("Invalid choice.")
+        return
+
+    try:
+        size = int(input("Enter size of input list (e.g., 100, 1000, 10000): "))
+        arr = generate_random_list(size)
+    except ValueError as e:
+        print(f"Error: {e}")
+        return
+
+    name, algo = algorithms[choice]
+    print(f"\nRunning {name}...")
+
+    start = time.time()
+    sorted_arr, comparisons, swaps = algo(arr)
+    end = time.time()
+    exec_time = end - start
+
+    print(f"Execution time (time module): {exec_time:.6f} seconds")
+    print(f"Execution time (timeit module): {measure_time(algo, arr):.6f} seconds")
+    print(f"Comparisons: {comparisons}")
+    print(f"Swaps: {swaps}")
+    print(f"First 10 elements of sorted list: {sorted_arr[:10]}")
+
+    # Run comparisons for all algorithms and generate report
+    print("\n--- Comparative Report (100, 1000, 10000 elements) ---")
+    sizes = [100, 1000, 10000]
+    for key, (name, algo) in algorithms.items():
+        print(f"\n{name}:")
+        all_comparisons = []
+        all_swaps = []
+        for sz in sizes:
+            sample = generate_random_list(sz)
+            _, comps, swps = algo(sample)
+            all_comparisons.append(comps)
+            all_swaps.append(swps)
+            print(f"  Size: {sz}, Comparisons: {comps}, Swaps: {swps}")
+        order = estimate_order(sizes, all_comparisons)
+        print(f"  Estimated Order of Growth (comparisons): O(n^{order:.2f})")
+
+if __name__ == "__main__":
+    main()
