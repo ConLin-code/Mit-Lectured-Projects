@@ -1,1 +1,178 @@
+#Define a base Workout class with common attributes like date, duration, calories burned, and distance.
+#Implement getter and setter methods for the Workout class attributes.
+#Create at least two subclasses (e.g., Running and Swimming) that inherit from the Workout class.
+#Add specific attributes to each subclass (e.g., pace for Running, stroke type for Swimming).
+#Override the str method in each class to provide a meaningful string representation of the workout.
+#Implement a class method in the Workout class to calculate the total calories burned across all workouts.
+#Create a WorkoutLog class that can store multiple Workout objects and provide methods to add workouts, display all workouts, and calculate total stats (e.g., total distance, total calories burned).
+#Demonstrate the use of inheritance by calling methods from both parent and child classes.
+#Use appropriate error handling for invalid inputs (e.g., negative duration or distance).
+#Create a simple command-line interface that allows users to:
+#Add different types of workouts
+#View all recorded workouts
+#Display total stats
+#Exit the program
+#Add appropriate comments to explain your code, especially focusing on how inheritance and object-oriented principles are implemented.
+
+
+from datetime import datetime
+
+# Base Workout class
+class Workout:
+    def __init__(self, date, duration, calories_burned, distance):
+        self.set_date(date)
+        self.set_duration(duration)
+        self.set_calories_burned(calories_burned)
+        self.set_distance(distance)
+
+    # Getter and Setter Methods
+    def get_date(self):
+        return self._date
+
+    def set_date(self, date):
+        try:
+            self._date = datetime.strptime(date, "%Y-%m-%d").date()
+        except ValueError:
+            raise ValueError("Date must be in YYYY-MM-DD format.")
+
+    def get_duration(self):
+        return self._duration
+
+    def set_duration(self, duration):
+        if duration <= 0:
+            raise ValueError("Duration must be positive.")
+        self._duration = duration
+
+    def get_calories_burned(self):
+        return self._calories_burned
+
+    def set_calories_burned(self, calories):
+        if calories < 0:
+            raise ValueError("Calories burned cannot be negative.")
+        self._calories_burned = calories
+
+    def get_distance(self):
+        return self._distance
+
+    def set_distance(self, distance):
+        if distance < 0:
+            raise ValueError("Distance cannot be negative.")
+        self._distance = distance
+
+    def __str__(self):
+        return f"Date: {self._date}, Duration: {self._duration} mins, Calories: {self._calories_burned}, Distance: {self._distance} km"
+
+
+# Running subclass
+class Running(Workout):
+    def __init__(self, date, duration, calories_burned, distance, pace):
+        super().__init__(date, duration, calories_burned, distance)
+        self.set_pace(pace)
+
+    def get_pace(self):
+        return self._pace
+
+    def set_pace(self, pace):
+        if pace <= 0:
+            raise ValueError("Pace must be a positive number.")
+        self._pace = pace
+
+    def __str__(self):
+        return super().__str__() + f", Type: Running, Pace: {self._pace} min/km"
+
+
+# Swimming subclass
+class Swimming(Workout):
+    def __init__(self, date, duration, calories_burned, distance, stroke_type):
+        super().__init__(date, duration, calories_burned, distance)
+        self.set_stroke_type(stroke_type)
+
+    def get_stroke_type(self):
+        return self._stroke_type
+
+    def set_stroke_type(self, stroke_type):
+        self._stroke_type = stroke_type
+
+    def __str__(self):
+        return super().__str__() + f", Type: Swimming, Stroke: {self._stroke_type}"
+
+
+# WorkoutLog class to manage workouts and total stats
+class WorkoutLog:
+    def __init__(self):
+        self.workouts = []
+
+    def add_workout(self, workout):
+        self.workouts.append(workout)
+
+    def display_workouts(self):
+        if not self.workouts:
+            print("No workouts recorded.")
+        for w in self.workouts:
+            print(w)
+
+    def get_total_distance(self):
+        return sum(w.get_distance() for w in self.workouts)
+
+    def get_total_calories(self):
+        return sum(w.get_calories_burned() for w in self.workouts)
+
+
+# Command-line interface
+def main():
+    log = WorkoutLog()
+
+    while True:
+        print("\n--- Workout Tracker ---")
+        print("1. Add Running Workout")
+        print("2. Add Swimming Workout")
+        print("3. View All Workouts")
+        print("4. Display Total Stats")
+        print("5. Exit")
+
+        choice = input("Choose an option (1-5): ")
+
+        try:
+            if choice == "1":
+                date = input("Enter date (YYYY-MM-DD): ")
+                duration = float(input("Enter duration (minutes): "))
+                calories = float(input("Enter calories burned: "))
+                distance = float(input("Enter distance (km): "))
+                pace = float(input("Enter pace (min/km): "))
+                workout = Running(date, duration, calories, distance, pace)
+                log.add_workout(workout)
+                print("Running workout added!")
+
+            elif choice == "2":
+                date = input("Enter date (YYYY-MM-DD): ")
+                duration = float(input("Enter duration (minutes): "))
+                calories = float(input("Enter calories burned: "))
+                distance = float(input("Enter distance (km): "))
+                stroke = input("Enter stroke type: ")
+                workout = Swimming(date, duration, calories, distance, stroke)
+                log.add_workout(workout)
+                print("Swimming workout added!")
+
+            elif choice == "3":
+                print("\n--- All Workouts ---")
+                log.display_workouts()
+
+            elif choice == "4":
+                print("\n--- Total Stats ---")
+                print(f"Total Distance: {log.get_total_distance():.2f} km")
+                print(f"Total Calories Burned: {log.get_total_calories():.2f} kcal")
+
+            elif choice == "5":
+                print("Goodbye!")
+                break
+
+            else:
+                print("Invalid option. Please choose a number between 1 and 5.")
+
+        except ValueError as e:
+            print(f"Error: {e}")
+
+
+if __name__ == "__main__":
+    main()
 
